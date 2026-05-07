@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MORAIS STORE - Gerador de Sensibilidade Free Fire</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet" />
+</head>
+<body style="visibility:hidden; opacity:0; transition: opacity 0.3s;">
+
+  <!-- NAVBAR -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <span class="logo-icon">🔥</span>
+        <span class="logo-text">MORAIS <span class="highlight">STORE</span></span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#gerador">Sensibilidade</a></li>
+        <li><a href="#graficos">Gráficos</a></li>
+        <li><a href="#planos">Planos</a></li>
+        <li><a href="#como-funciona">Como Funciona</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="#planos" class="btn-nav">Comprar Agora</a>
+        <div class="user-menu" id="userMenu" style="display:none;">
+          <img class="user-avatar" id="userAvatar" src="" alt="Avatar" />
+          <span class="user-name" id="userName"></span>
+          <div class="user-dropdown">
+            <a href="#" id="btnLogout">🚪 Sair</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="badge">⚡ GERADOR EXCLUSIVO FREE FIRE</div>
+      <h1>GERE SUA<br /><span class="highlight">SENSIBILIDADE</span><br />PERFEITA E DÊ<br /><span class="highlight-red">BOOYAH!</span></h1>
+      <p class="hero-sub">Sensibilidade gerada na hora, personalizada para o seu celular e estilo de jogo. Mire mais rápido, acerte mais, vença mais.</p>
+      <div class="hero-buttons">
+        <a href="#gerador" class="btn-primary">⚡ Gerar Agora</a>
+        <a href="#planos" class="btn-secondary">Ver Planos</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num">+12.000</span>
+          <span class="stat-label">Clientes</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num">98%</span>
+          <span class="stat-label">Satisfação</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num">24h</span>
+          <span class="stat-label">Suporte</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-image">
+      <div class="fire-circle">
+        <div class="crosshair">
+          <div class="ch-h"></div>
+          <div class="ch-v"></div>
+          <div class="ch-center"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GERADOR DE SENSIBILIDADE -->
+  <section class="gerador-section" id="gerador">
+    <div class="container">
+      <h2 class="section-title">⚡ Gerador de <span class="highlight">Sensibilidade</span></h2>
+      <p class="section-sub">Preencha as informações abaixo e gere sua config personalizada</p>
+
+      <!-- LOCK OVERLAY (aparece para não pagantes) -->
+      <div class="gerador-wrapper">
+        <div class="lock-overlay" id="lockOverlay">
+          <div class="lock-box">
+            <div class="lock-icon">🔒</div>
+            <h3>Conteúdo Exclusivo</h3>
+            <p>Adquira um plano para desbloquear o gerador de sensibilidade personalizado</p>
+            <a href="#planos" class="btn-primary">Ver Planos</a>
+            <p class="lock-demo">ou <a href="#" onclick="demoMode()">testar versão demo</a></p>
+          </div>
+        </div>
+
+        <!-- FORMULÁRIO DO GERADOR -->
+        <div class="gerador-form" id="geradorForm">
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label>📱 Tipo de Celular</label>
+              <select id="tipoCelular">
+                <option value="fraco">Fraco (2GB RAM ou menos)</option>
+                <option value="medio" selected>Médio (3-4GB RAM)</option>
+                <option value="top">Top (6GB+ RAM)</option>
+                <option value="emulador">Emulador (PC)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>🎮 Estilo de Jogo</label>
+              <select id="estiloJogo">
+                <option value="agressivo">Agressivo (rush)</option>
+                <option value="equilibrado" selected>Equilibrado</option>
+                <option value="passivo">Passivo (sniper)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>🖐 Forma de Segurar</label>
+              <select id="formaJogar">
+                <option value="1dedo">1 dedo</option>
+                <option value="2dedos" selected>2 dedos</option>
+                <option value="3dedos">3 dedos</option>
+                <option value="4dedos">4 dedos (claw)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>🔫 Arma Favorita</label>
+              <select id="armaFavorita">
+                <option value="ar">Fuzil (AR)</option>
+                <option value="smg">SMG (metralhadora)</option>
+                <option value="sniper">Sniper / AWM</option>
+                <option value="shotgun">Shotgun</option>
+              </select>
+            </div>
+
+          </div>
+
+          <button class="btn-gerar" id="btnGerar" onclick="gerarSensibilidade()">
+            ⚡ GERAR MINHA SENSIBILIDADE
+          </button>
+        </div>
+
+        <!-- RESULTADO -->
+        <div class="resultado" id="resultado" style="display:none;">
+          <div class="resultado-header">
+            <h3>✅ Sua Sensibilidade Gerada!</h3>
+            <span class="resultado-badge" id="resultadoBadge">MÉDIO • EQUILIBRADO</span>
+          </div>
+
+          <div class="sens-grid">
+            <div class="sens-item">
+              <span class="sens-label">🎯 Geral</span>
+              <div class="sens-bar-wrap">
+                <div class="sens-bar" id="barGeral"></div>
+              </div>
+              <span class="sens-value" id="valGeral">—</span>
+            </div>
+            <div class="sens-item">
+              <span class="sens-label">🔴 Ponto Vermelho</span>
+              <div class="sens-bar-wrap">
+                <div class="sens-bar" id="barPonto"></div>
+              </div>
+              <span class="sens-value" id="valPonto">—</span>
+            </div>
+            <div class="sens-item">
+              <span class="sens-label">🔭 Mira 2x</span>
+              <div class="sens-bar-wrap">
+                <div class="sens-bar" id="barMira2x"></div>
+              </div>
+              <span class="sens-value" id="valMira2x">—</span>
+            </div>
+            <div class="sens-item">
+              <span class="sens-label">🔭 Mira 4x</span>
+              <div class="sens-bar-wrap">
+                <div class="sens-bar" id="barMira4x"></div>
+              </div>
+              <span class="sens-value" id="valMira4x">—</span>
+            </div>
+            <div class="sens-item">
+              <span class="sens-label">🎯 Mira AWM</span>
+              <div class="sens-bar-wrap">
+                <div class="sens-bar" id="barAWM"></div>
+              </div>
+              <span class="sens-value" id="valAWM">—</span>
+            </div>
+            <div class="sens-item">
+              <span class="sens-label">📷 Câmera Livre</span>
+              <div class="sens-bar-wrap">
+                <div class="sens-bar" id="barCamera"></div>
+              </div>
+              <span class="sens-value" id="valCamera">—</span>
+            </div>
+          </div>
+
+          <div class="resultado-actions">
+            <button class="btn-copiar" onclick="copiarSens()">📋 Copiar Configurações</button>
+            <button class="btn-gerar-novo" onclick="gerarNovamente()">🔄 Gerar Novamente</button>
+          </div>
+
+          <div class="resultado-tip" id="resultadoTip"></div>
+          <div class="copy-toast" id="copyToast">✅ Copiado!</div>
+        </div>
+
+      </div><!-- fim gerador-wrapper -->
+    </div>
+  </section>
+
+  <!-- GERADOR DE GRÁFICOS -->
+  <section class="gerador-section graficos-section" id="graficos">
+    <div class="container">
+      <h2 class="section-title">🖥️ Gerador de <span class="highlight">Gráficos</span></h2>
+      <p class="section-sub">Config de gráfico otimizada para seu celular — mais FPS, menos travamento</p>
+
+      <div class="gerador-wrapper">
+        <div class="lock-overlay" id="lockOverlayGraf">
+          <div class="lock-box">
+            <div class="lock-icon">🔒</div>
+            <h3>Conteúdo Exclusivo</h3>
+            <p>Adquira um plano para desbloquear o gerador de gráficos</p>
+            <a href="#planos" class="btn-primary">Ver Planos</a>
+            <p class="lock-demo">ou <a href="#" onclick="demoModeGraf()">testar versão demo</a></p>
+          </div>
+        </div>
+
+        <div class="gerador-form" id="geradorFormGraf">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>📱 Tipo de Celular</label>
+              <select id="grafCelular">
+                <option value="fraco">Fraco (2GB RAM ou menos)</option>
+                <option value="medio" selected>Médio (3-4GB RAM)</option>
+                <option value="top">Top (6GB+ RAM)</option>
+                <option value="emulador">Emulador (PC)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>🎯 Prioridade</label>
+              <select id="grafPrioridade">
+                <option value="fps">Máximo FPS (menos travamento)</option>
+                <option value="equilibrado" selected>Equilibrado</option>
+                <option value="visual">Melhor Visual</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn-gerar" onclick="gerarGraficos()">
+            🖥️ GERAR MINHA CONFIG DE GRÁFICO
+          </button>
+        </div>
+
+        <div class="resultado" id="resultadoGraf" style="display:none;">
+          <div class="resultado-header">
+            <h3>✅ Sua Config de Gráfico Gerada!</h3>
+            <span class="resultado-badge" id="resultadoBadgeGraf">MÉDIO • EQUILIBRADO</span>
+          </div>
+          <div class="graf-grid">
+            <div class="graf-item">
+              <span class="graf-label">🎨 Qualidade Gráfica</span>
+              <span class="graf-value" id="grafQualidade">—</span>
+            </div>
+            <div class="graf-item">
+              <span class="graf-label">⚡ Taxa de Quadros</span>
+              <span class="graf-value" id="grafFPS">—</span>
+            </div>
+            <div class="graf-item">
+              <span class="graf-label">🌑 Sombras</span>
+              <span class="graf-value graf-off">DESLIGADO</span>
+            </div>
+            <div class="graf-item">
+              <span class="graf-label">✨ Efeitos Especiais</span>
+              <span class="graf-value" id="grafEfeitos">—</span>
+            </div>
+            <div class="graf-item">
+              <span class="graf-label">🌿 Vegetação</span>
+              <span class="graf-value" id="grafVegetacao">—</span>
+            </div>
+            <div class="graf-item">
+              <span class="graf-label">🖼️ Estilo de Renderização</span>
+              <span class="graf-value" id="grafRender">—</span>
+            </div>
+          </div>
+          <div class="resultado-actions">
+            <button class="btn-copiar" onclick="copiarGraf()">📋 Copiar Configurações</button>
+            <button class="btn-gerar-novo" onclick="gerarNovamenteGraf()">🔄 Gerar Novamente</button>
+          </div>
+          <div class="resultado-tip" id="resultadoTipGraf"></div>
+          <div class="copy-toast" id="copyToastGraf">✅ Copiado!</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA -->
+  <section class="como-funciona" id="como-funciona">
+    <div class="container">
+      <h2 class="section-title">Como <span class="highlight">Funciona</span></h2>
+      <p class="section-sub">Simples, rápido e eficaz</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-icon">💳</div>
+          <div class="step-num">01</div>
+          <h3>Escolha seu Plano</h3>
+          <p>Selecione o pacote ideal para o seu estilo de jogo.</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-icon">⚡</div>
+          <div class="step-num">02</div>
+          <h3>Gere sua Sensibilidade</h3>
+          <p>Preencha seu perfil e o gerador cria a config perfeita para você.</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-icon">🎮</div>
+          <div class="step-num">03</div>
+          <h3>Aplique e Domine</h3>
+          <p>Copie os valores, aplique no Free Fire e comece a dar headshots.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANOS -->
+  <section class="planos" id="planos">
+    <div class="container">
+      <h2 class="section-title">Nossos <span class="highlight">Planos</span></h2>
+      <p class="section-sub">Escolha o melhor para você</p>
+      <div class="cards">
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-badge">BÁSICO</span>
+            <h3>Starter</h3>
+            <div class="price">
+              <span class="price-old">R$ 19,90</span>
+              <span class="price-new">R$ 9,90</span>
+            </div>
+          </div>
+          <ul class="card-features">
+            <li>✅ Gerador de Sensibilidade</li>
+            <li>✅ 3 gerações por dia</li>
+            <li>✅ Config para 1 dispositivo</li>
+            <li>✅ Suporte via WhatsApp</li>
+            <li>❌ Gerações ilimitadas</li>
+            <li>❌ Config para Sniper/AWM</li>
+            <li>❌ Atualizações vitalícias</li>
+          </ul>
+          <a href="#" onclick="abrirPix('starter', 9.90)" class="btn-card">Comprar Agora</a>
+        </div>
+
+        <div class="card card-featured">
+          <div class="card-ribbon">MAIS VENDIDO</div>
+          <div class="card-header">
+            <span class="card-badge badge-gold">PRO</span>
+            <h3>Pro Player</h3>
+            <div class="price">
+              <span class="price-old">R$ 39,90</span>
+              <span class="price-new">R$ 19,90</span>
+            </div>
+          </div>
+          <ul class="card-features">
+            <li>✅ Gerador de Sensibilidade</li>
+            <li>✅ Gerações ilimitadas</li>
+            <li>✅ Config para 3 dispositivos</li>
+            <li>✅ Suporte prioritário WhatsApp</li>
+            <li>✅ Config para Sniper/AWM</li>
+            <li>❌ Atualizações vitalícias</li>
+            <li>❌ Acesso vitalício</li>
+          </ul>
+          <a href="#" onclick="abrirPix('pro', 19.90)" class="btn-card btn-card-gold">Comprar Agora</a>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-badge badge-red">ELITE</span>
+            <h3>Booyah Elite</h3>
+            <div class="price">
+              <span class="price-old">R$ 69,90</span>
+              <span class="price-new">R$ 34,90</span>
+            </div>
+          </div>
+          <ul class="card-features">
+            <li>✅ Gerador de Sensibilidade</li>
+            <li>✅ Gerações ilimitadas</li>
+            <li>✅ Dispositivos ilimitados</li>
+            <li>✅ Suporte 24h WhatsApp</li>
+            <li>✅ Config para todas as armas</li>
+            <li>✅ Atualizações vitalícias</li>
+            <li>✅ Acesso vitalício</li>
+          </ul>
+          <a href="#" onclick="abrirPix('elite', 34.90)" class="btn-card btn-card-red">Comprar Agora</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPOIMENTOS -->
+  <section class="depoimentos" id="depoimentos">
+    <div class="container">
+      <h2 class="section-title">O que dizem nossos <span class="highlight">Clientes</span></h2>
+      <div class="testimonials">
+        <div class="testimonial">
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+          <p>"Gerei a sensibilidade e em 2 dias já tava dando headshot em todo mundo. Melhor investimento do Free Fire!"</p>
+          <div class="author">
+            <div class="avatar">G</div>
+            <div><strong>Gabriel S.</strong><span>Diamante → Heroico</span></div>
+          </div>
+        </div>
+        <div class="testimonial">
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+          <p>"O gerador é incrível! Coloquei as configs e minha mira melhorou muito. Suporte da MORAIS STORE é top!"</p>
+          <div class="author">
+            <div class="avatar">L</div>
+            <div><strong>Lucas M.</strong><span>Platina → Diamante</span></div>
+          </div>
+        </div>
+        <div class="testimonial">
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+          <p>"Comprei o Elite e valeu cada centavo. Gero a sens sempre que muda de celular. Recomendo demais!"</p>
+          <div class="author">
+            <div class="avatar">A</div>
+            <div><strong>Ana P.</strong><span>Heroico → Grão-Mestre</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <h2 class="section-title"><span class="highlight">Perguntas</span> Frequentes</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            É seguro? Posso ser banido? <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Sim, 100% seguro! São apenas ajustes de sensibilidade dentro do próprio jogo, sem hack ou mod. Zero risco de ban.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Funciona em qualquer celular? <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Sim! O gerador adapta a sensibilidade para celulares fracos, médios, top de linha e até emulador no PC.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Como acesso o gerador após a compra? <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Após o pagamento, você recebe o acesso via WhatsApp em até 5 minutos. Basta fazer login no site e o gerador é desbloqueado.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Tem garantia? <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Sim! 7 dias de garantia. Se não ficar satisfeito, devolvemos 100% do seu dinheiro.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Quais formas de pagamento? <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Aceitamos Pix (aprovação imediata), cartão de crédito e débito.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-final">
+    <div class="container">
+      <h2>Pronto para dar o próximo <span class="highlight">BOOYAH?</span></h2>
+      <p>Junte-se a mais de 12.000 jogadores que já melhoraram sua mira com a MORAIS STORE</p>
+      <a href="#" onclick="abrirPix('pro', 19.90)" class="btn-primary btn-large">
+        💳 Pagar com Pix
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-logo">
+        <span class="logo-icon">🔥</span>
+        <span class="logo-text">MORAIS <span class="highlight">STORE</span></span>
+      </div>
+      <p>© 2026 MORAIS STORE. Todos os direitos reservados.</p>
+      <p class="footer-disclaimer">Este site não é afiliado à Garena ou Free Fire. Free Fire é marca registrada da Garena.</p>
+    </div>
+  </footer>
+
+  <!-- MODAL PIX + PAYPAL -->
+  <div class="modal-overlay" id="pixModal">
+    <div class="pix-modal-box">
+      <button class="modal-close" onclick="fecharPix()">✕</button>
+
+      <div class="pix-modal-header">
+        <div class="pix-logo">🔥 MORAIS STORE</div>
+        <h3 id="pixPlanoNome">Plano Pro Player</h3>
+        <div class="pix-valor" id="pixValor">R$ 19,90</div>
+        <div class="pix-timer-wrap">⏱ Expira em: <span id="pixTimer" class="pix-timer">15:00</span></div>
+      </div>
+
+      <!-- PIX -->
+      <div id="qrCodeContainer" class="qr-container"></div>
+      <p class="pix-instrucao">Escaneie o QR Code ou copie o código abaixo</p>
+
+      <div class="pix-info">
+        <div class="pix-info-row">
+          <span>Chave Pix:</span>
+          <strong id="pixChave">77981287372</strong>
+        </div>
+        <div class="pix-info-row">
+          <span>Beneficiário:</span>
+          <strong id="pixNome">Willian Morais de Jesus Santos</strong>
+        </div>
+      </div>
+
+      <textarea class="pix-code" id="pixCopiaECola" readonly></textarea>
+      <button class="btn-copiar-pix" id="btnCopiarPix" onclick="copiarPix()">📋 Copiar Código Pix</button>
+
+      <div class="pix-aviso">
+        ✅ Após o pagamento, envie o comprovante no WhatsApp para liberar o acesso
+      </div>
+      <a class="btn-whatsapp" href="https://wa.me/5577981287372?text=Fiz%20o%20pagamento%20do%20Pix%20-%20MORAIS%20STORE" target="_blank">
+        💬 Enviar Comprovante no WhatsApp
+      </a>
+
+    </div>
+  </div>
+
+  <!-- QR Code lib -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="script.js"></script>
+  <script src="pix.js"></script>
+
+  <!-- Firebase Auth Guard -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA3S815yG3gK_yn_DLfink5gZ52AsnVzkg",
+      authDomain: "morais-store-3a6dd.firebaseapp.com",
+      projectId: "morais-store-3a6dd",
+      storageBucket: "morais-store-3a6dd.firebasestorage.app",
+      messagingSenderId: "15584815749",
+      appId: "1:15584815749:web:ce1222959c7e5d5232f1e"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      // Mostra o site
+      document.body.style.visibility = 'visible';
+      document.body.style.opacity = '1';
+
+      // Preenche dados do usuário no header
+      const userMenu = document.getElementById('userMenu');
+      const userAvatar = document.getElementById('userAvatar');
+      const userName = document.getElementById('userName');
+
+      if (userMenu) userMenu.style.display = 'flex';
+
+      if (user.photoURL && userAvatar) {
+        userAvatar.src = user.photoURL;
+        userAvatar.style.display = 'block';
+      } else if (userAvatar) {
+        userAvatar.style.display = 'none';
+      }
+
+      if (userName) {
+        userName.textContent = user.displayName
+          ? user.displayName.split(' ')[0]
+          : user.email.split('@')[0];
+      }
+    });
+
+    const btnLogout = document.getElementById('btnLogout');
+    if (btnLogout) {
+      btnLogout.addEventListener('click', async (e) => {
+        e.preventDefault();
+        await signOut(auth);
+        window.location.href = "login.html";
+      });
+    }
+  </script>
+</body>
+</html>
