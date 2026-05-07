@@ -1,127 +1,132 @@
 // =============================================
-// GERADOR DE PIX QR CODE - MORAIS STORE
-// Willian Morais de Jesus Santos
+// PIX QR CODE - MORAIS STORE
 // Chave: 77981287372
+// Willian Morais de Jesus Santos
 // =============================================
 
-function gerarPixPayload(valor, descricao) {
-  const chave = '77981287372';
-  const nome = 'Willian Morais';
-  const cidade = 'BRASIL';
-  const txid = 'MORAISSTORE' + Date.now().toString().slice(-6);
+const PIX_CHAVE  = '77981287372';
+const PIX_NOME   = 'Willian Morais';
+const PIX_CIDADE = 'Barreiras';
 
-  function campo(id, val) {
-    const tam = val.length.toString().padStart(2, '0');
-    return id + tam + val;
+// ── Gera o payload EMV/PIX ──────────────────
+function pixPayload(valor) {
+  const txid = 'MORAIS' + Date.now().toString().slice(-8);
+
+  function f(id, v) {
+    return id + String(v.length).padStart(2,'0') + v;
   }
 
-  function merchantAccountInfo() {
-    const gui = campo('00', 'BR.GOV.BCB.PIX');
-    const chaveField = campo('01', chave);
-    return campo('26', gui + chaveField);
-  }
+  const mai = f('26',
+    f('00','BR.GOV.BCB.PIX') +
+    f('01', PIX_CHAVE)
+  );
 
-  let payload =
-    campo('00', '01') +
-    campo('01', '12') +
-    merchantAccountInfo() +
-    campo('52', '0000') +
-    campo('53', '986') +
-    campo('54', valor.toFixed(2)) +
-    campo('58', 'BR') +
-    campo('59', nome.substring(0, 25).toUpperCase()) +
-    campo('60', cidade.substring(0, 15).toUpperCase()) +
-    campo('62', campo('05', txid)) +
+  const addi = f('62', f('05', txid));
+
+  let str =
+    f('00','01') +
+    f('01','12') +
+    mai +
+    f('52','0000') +
+    f('53','986') +
+    f('54', valor.toFixed(2)) +
+    f('58','BR') +
+    f('59', PIX_NOME.substring(0,25).toUpperCase()) +
+    f('60', PIX_CIDADE.substring(0,15).toUpperCase()) +
+    addi +
     '6304';
 
-  payload += crc16(payload);
-  return payload;
+  return str + crc16(str);
 }
 
-function crc16(str) {
-  let crc = 0xFFFF;
-  for (let i = 0; i < str.length; i++) {
-    crc ^= str.charCodeAt(i) << 8;
-    for (let j = 0; j < 8; j++) {
-      crc = (crc & 0x8000) ? (crc << 1) ^ 0x1021 : crc << 1;
-    }
+// ── CRC-16/CCITT-FALSE ──────────────────────
+function crc16(s) {
+  let c = 0xFFFF;
+  for (let i = 0; i < s.length; i++) {
+    c ^= s.charCodeAt(i) << 8;
+    for (let j = 0; j < 8; j++)
+      c = (c & 0x8000) ? (c << 1) ^ 0x1021 : c << 1;
   }
-  return ((crc & 0xFFFF).toString(16).toUpperCase().padStart(4, '0'));
+  return (c & 0xFFFF).toString(16).toUpperCase().padStart(4,'0');
 }
 
+// ── Abre o modal ────────────────────────────
 function abrirPix(plano, valor) {
-  const descricoes = {
-    starter: 'MORAIS STORE - Starter',
-    pro:     'MORAIS STORE - Pro Player',
-    elite:   'MORAIS STORE - Booyah Elite'
+  const nomes = {
+    starter: 'Starter — R$ 9,90',
+    pro:     'Pro Player — R$ 19,90',
+    elite:   'Booyah Elite — R$ 34,90'
   };
 
-  const payload = gerarPixPayload(valor, descricoes[plano]);
+  document.getElementById('pixPlanoNome').textContent = 'MORAIS STORE · ' + nomes[plano];
+  document.getElementById('pixValor').textContent = 'R$ ' + valor.toFixed(2).replace('.',',');
+  document.getElementById('pixValorInfo').textContent = 'R$ ' + valor.toFixed(2).replace('.',',');
 
-  document.getElementById('pixPlanoNome').textContent = descricoes[plano];
-  document.getElementById('pixValor').textContent = 'R$ ' + valor.toFixed(2).replace('.', ',');
-  document.getElementById('pixCopiaECola').value = payload;
-  document.getElementById('pixChave').textContent = '77981287372';
-  document.getElementById('pixNome').textContent = 'Willian Morais de Jesus Santos';
+  // Gera payload e QR Code
+  const payload = pixPayload(valor);
+  window._pixPayload = payload;
 
-  // Gera QR Code
-  const qrContainer = document.getElementById('qrCodeContainer');
-  qrContainer.innerHTML = '';
-  new QRCode(qrContainer, {
-    text: payload,
-    width: 200,
-    height: 200,
-    colorDark: '#000000',
-    colorLight: '#ffffff',
-    correctLevel: QRCode.CorrectLevel.M
-  });
+  const box = document.getElementById('qrCodeContainer');
+  box.innerHTML = '';
+
+  try {
+    new QRCode(box, {
+      text: payload,
+      width: 210,
+      height: 210,
+      colorDark: '#000000',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  } catch(e) {
+    box.innerHTML = '<p style="color:#888;font-size:.85rem;padding:20px;">Erro ao gerar QR Code.<br>Use a chave abaixo.</p>';
+  }
 
   document.getElementById('pixModal').classList.add('active');
   document.body.style.overflow = 'hidden';
   iniciarTimer();
 }
 
+// ── Fecha modal ─────────────────────────────
 function fecharPix() {
   document.getElementById('pixModal').classList.remove('active');
   document.body.style.overflow = '';
   clearInterval(window._pixTimer);
 }
 
-function copiarPix() {
-  const texto = document.getElementById('pixCopiaECola').value;
+// ── Copia chave Pix ─────────────────────────
+function copiarChave() {
+  // Copia o payload completo (copia e cola Pix)
+  const texto = window._pixPayload || PIX_CHAVE;
   navigator.clipboard.writeText(texto).then(() => {
     const btn = document.getElementById('btnCopiarPix');
+    const orig = btn.textContent;
     btn.textContent = '✅ Copiado!';
     btn.style.background = '#4CAF50';
     setTimeout(() => {
-      btn.textContent = '📋 Copiar Código Pix';
+      btn.textContent = orig;
       btn.style.background = '';
     }, 2500);
   });
 }
 
+// ── Timer 15 min ────────────────────────────
 function iniciarTimer() {
-  let segundos = 15 * 60;
+  let s = 15 * 60;
   clearInterval(window._pixTimer);
   window._pixTimer = setInterval(() => {
-    segundos--;
-    const min = Math.floor(segundos / 60).toString().padStart(2, '0');
-    const sec = (segundos % 60).toString().padStart(2, '0');
+    s--;
     const el = document.getElementById('pixTimer');
-    if (el) el.textContent = min + ':' + sec;
-    if (segundos <= 0) {
-      clearInterval(window._pixTimer);
-      if (el) el.textContent = 'EXPIRADO';
-    }
+    if (!el) return;
+    if (s <= 0) { clearInterval(window._pixTimer); el.textContent = 'EXPIRADO'; return; }
+    el.textContent =
+      String(Math.floor(s/60)).padStart(2,'0') + ':' +
+      String(s % 60).padStart(2,'0');
   }, 1000);
 }
 
-// Fecha modal clicando fora
+// ── Fecha clicando fora ─────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  const modal = document.getElementById('pixModal');
-  if (modal) {
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) fecharPix();
-    });
-  }
+  const m = document.getElementById('pixModal');
+  if (m) m.addEventListener('click', e => { if (e.target === m) fecharPix(); });
 });

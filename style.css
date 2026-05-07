@@ -1520,3 +1520,10 @@ footer p {
   display: block;
   margin-top: 20px;
 }
+
+.qr-loading {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  padding: 40px 20px;
+  text-align: center;
+}

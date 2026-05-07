@@ -508,25 +508,30 @@
       </div>
 
       <!-- PIX -->
-      <div id="qrCodeContainer" class="qr-container"></div>
-      <p class="pix-instrucao">Escaneie o QR Code ou copie o código abaixo</p>
+      <div id="qrCodeContainer" class="qr-container">
+        <div class="qr-loading">⏳ Gerando QR Code...</div>
+      </div>
+      <p class="pix-instrucao">Escaneie o QR Code ou copie a chave abaixo</p>
 
       <div class="pix-info">
         <div class="pix-info-row">
           <span>Chave Pix:</span>
-          <strong id="pixChave">77981287372</strong>
+          <strong>77981287372</strong>
         </div>
         <div class="pix-info-row">
           <span>Beneficiário:</span>
-          <strong id="pixNome">Willian Morais de Jesus Santos</strong>
+          <strong>Willian Morais de Jesus Santos</strong>
+        </div>
+        <div class="pix-info-row">
+          <span>Valor:</span>
+          <strong id="pixValorInfo">—</strong>
         </div>
       </div>
 
-      <textarea class="pix-code" id="pixCopiaECola" readonly></textarea>
-      <button class="btn-copiar-pix" id="btnCopiarPix" onclick="copiarPix()">📋 Copiar Código Pix</button>
+      <button class="btn-copiar-pix" id="btnCopiarPix" onclick="copiarChave()">📋 Copiar Chave Pix</button>
 
       <div class="pix-aviso">
-        ✅ Após o pagamento, envie o comprovante no WhatsApp para liberar o acesso
+        ✅ Após pagar, envie o comprovante no WhatsApp para liberar o acesso
       </div>
       <a class="btn-whatsapp" href="https://wa.me/5577981287372?text=Fiz%20o%20pagamento%20do%20Pix%20-%20MORAIS%20STORE" target="_blank">
         💬 Enviar Comprovante no WhatsApp
